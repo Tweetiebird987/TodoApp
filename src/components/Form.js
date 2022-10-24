@@ -9,7 +9,11 @@ const Form = () => {
 
     const handleTaskSubmit = (e) => {
         e.preventDefault()
-        addTask(taskName)
+        addTask({
+            id: Math.ceil(Math.random() * 1000000),
+            task: taskName,
+            completed: false
+        })
         setTaskName("")
     }
 

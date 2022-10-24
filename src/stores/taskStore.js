@@ -13,6 +13,11 @@ const taskStore = (set) => ({
         set((state) => ({
             tasks: state.tasks.filter((task) => task.id !== taskId)
         }))
+    },
+    toggleTaskStatus: (taskId) => {
+        set((state) => ({
+            tasks: state.tasks.map((task) => task.id === taskId ? {...task, completed: !task.completed} : task)
+        }))
     }
 })
 
