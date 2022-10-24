@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import useTaskStore from '../stores/taskStore'
 
-const Form = () => {
+const TaskForm = () => {
     const addTask = useTaskStore((state) => state.addTask)
 
     const [taskName, setTaskName] = useState("")
@@ -11,7 +11,7 @@ const Form = () => {
         e.preventDefault()
         addTask({
             id: Math.ceil(Math.random() * 1000000),
-            task: taskName,
+            taskName: taskName,
             completed: false
         })
         setTaskName("")
@@ -34,4 +34,4 @@ const Form = () => {
     );
 };
 
-export default Form;
+export default TaskForm;
