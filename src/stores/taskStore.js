@@ -18,6 +18,26 @@ const taskStore = (set) => ({
         set((state) => ({
             tasks: state.tasks.map((taskName) => taskName.id === taskId ? {...taskName, completed: !taskName.completed} : taskName)
         }))
+    },
+    filteredTasks: [],
+    filterTasks: (filter) => {
+        switch(filter){
+            case 'completed':
+                set((state) => ({
+                    filteredTasks: state.tasks.filter((task) => task.completed === true )
+                }))
+            break;
+            case 'uncompleted':
+                set((state) => ({
+                    filteredTasks: state.tasks.filter((task) => task.completed === false)
+                }))
+            break;
+            default:
+                set((state) => ({
+                    filteredTasks: state.tasks
+                }))
+            break;
+        }
     }
 })
 

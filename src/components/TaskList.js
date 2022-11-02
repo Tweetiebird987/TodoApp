@@ -3,18 +3,18 @@ import React from 'react'
 import useTaskStore from '../stores/taskStore'
 
 const TaskList = () => {
-    const { tasks, removeTask, toggleTaskStatus} = useTaskStore(
+    const { removeTask, toggleTaskStatus, filteredTasks} = useTaskStore(
         (state) => ({
-            tasks: state.tasks,
             removeTask: state.removeTask,
-            toggleTaskStatus: state.toggleTaskStatus
+            toggleTaskStatus: state.toggleTaskStatus,
+            filteredTasks: state.filteredTasks
         })
     )
 
     return (
         <div className='todo-container'>
             <ul className='todo-list'>
-                {tasks.map((task, id)=> {
+                {filteredTasks.map((task, id)=> {
                     return (
                         <React.Fragment key={id}>
                             <div className='todo'>
