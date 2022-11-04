@@ -30,7 +30,7 @@ const TaskForm = () => {
     return(
         <form>
             <input value={taskName} onChange={(e) => setTaskName(e.target.value)} className="todo-input" />
-            <button onClick={handleTaskSubmit} className="todo-button" type="submit">
+            <button onClick={handleTaskSubmit} className="todo-button" type="submit" data-testid="SubmitBtn">
                 <i className="fas fa-plus-square"></i>
             </button>
             <div className="select">

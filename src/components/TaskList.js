@@ -18,13 +18,13 @@ const TaskList = () => {
                     return (
                         <React.Fragment key={id}>
                             <div className='todo'>
-                                <li className={`todo-item ${task.completed ? "completed" : ''}`}>{task?.taskName}</li>
+                                <li className={`todo-item ${task.completed ? "completed" : ''}`} data-testid={task.taskName + " Task"}>{task?.taskName}</li>
 
-                                <button onClick={(e) => {toggleTaskStatus(task.id)}} className='complete-btn'>
+                                <button onClick={(e) => {toggleTaskStatus(task.id)}} className='complete-btn' data-testid={task.taskName + " StatusBtn"}>
                                     <i className="fas fa-check"></i>
                                 </button>
 
-                                <button onClick={() => {removeTask(task.id)}} className='trash-btn'>
+                                <button onClick={() => {removeTask(task.id)}} className='trash-btn' data-testid={task.taskName + " DeleteBtn"}>
                                     <i className="fas fa-trash"></i>
                                 </button>
                             </div>
