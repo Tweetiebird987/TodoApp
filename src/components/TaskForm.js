@@ -33,10 +33,10 @@ const TaskForm = () => {
     return(
         <form>
             <input value={taskName} onChange={(e) => setTaskName(e.target.value)} className="todo-input" />
-            <button onClick={handleTaskSubmit} className="todo-button" type="submit" data-testid="SubmitBtn">
+            <button onClick={handleTaskSubmit} className="todo-button" type="submit" data-testid="SubmitBtn" title="Add Task">
                 <i className="fas fa-plus-square"></i>
             </button>
-            <div className="select">
+            <div className="select" title="Filter Tasks">
                 <select name="todos" className="filter-todo" 
                 onChange={(e) => {setStatus(e.target.value)}}>
                     <option value="all">All</option>

@@ -21,16 +21,20 @@ const TaskList = () => {
                             <div className='todo'>
                                 <li className={`todo-item ${task.completed ? "completed" : ''}`} data-testid={task.taskName + " Task"}>{task?.taskName}</li>
 
-                                <button onClick={() => {toggleTaskStatus(task.id)}} className='complete-btn' data-testid={task.taskName + " StatusBtn"}>
+                                <button onClick={() => {toggleTaskStatus(task.id)}} className='complete-btn' data-testid={task.taskName + " StatusBtn"}
+                                title="Toggle Completed">
                                     <i className="fas fa-check"></i>
                                 </button>
 
-                                <button onClick={() => {removeTask(task.id)}} className='trash-btn' data-testid={task.taskName + " DeleteBtn"}>
-                                    <i className="fas fa-trash"></i>
-                                </button>
-                                <button onClick={() => {togglePriorityStatus(task.id)}} className={`priority-btn ${task.priority ? "priority-on" : ''}`}>
+                                <button onClick={() => {togglePriorityStatus(task.id)}} className={`priority-btn ${task.priority ? "priority-on" : ''}`} 
+                                title="Set Priority">
                                     <i className="fas fa-lightbulb"></i>
                                 </button>
+
+                                <button onClick={() => {removeTask(task.id)}} className='trash-btn' data-testid={task.taskName + " DeleteBtn"}
+                                title="Delete Task">
+                                    <i className="fas fa-trash"></i>
+                                </button>                                
                             </div>
                         </React.Fragment>
                     )
