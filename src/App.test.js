@@ -3,12 +3,11 @@ import '@testing-library/jest-dom/extend-expect';
 
 import App from './App'
 
-describe('App', () => {
-    it('Renders Title', () => {
-        render(<App />);
-        const title = screen.getByText(/Arnold's Task List/i);
-        expect(title).toBeInTheDocument();
-    })
+test('Renders Title', () => {
+    render(<App />);
+    const title = screen.getByText(/Arnold's Task List/i);
+    expect(title).toBeInTheDocument();
+})
 
 test('Task is added to list', () => {
     render(<App />);
@@ -41,4 +40,32 @@ test('Task is deleted from the list', () => {
 
     expect(listEl.lastChild.textContent).not.toBe(testValue)
 })
+
+test('Task status does toggle', () => {
+    render(<App />);
+    const taskInputEl = screen.getByRole("textbox")
+    const submitButtonEl = screen.getByTestId("SubmitBtn")
+
+    const testValue = 'completeTest'
+
+    fireEvent.change(taskInputEl, {target:{value:testValue}})
+    fireEvent.click(submitButtonEl)
+
+    const taskEl = screen.getByTestId(testValue + " Task")
+    const statusButtonEl = screen.getByTestId(testValue+" StatusBtn")
+
+    var completed = ((taskEl.getAttribute('class').includes('todo-item')) ? false : true)
+
+    for(var x = 0; x<2;x++)
+    {
+        fireEvent.click(statusButtonEl)
+
+        if(completed)
+        {
+            expect(taskEl.getAttribute('class')).not.toContain("completed")
+        } else{
+            expect(taskEl.getAttribute('class')).toContain("completed")
+        }
+        completed = !completed
+    }
 })
