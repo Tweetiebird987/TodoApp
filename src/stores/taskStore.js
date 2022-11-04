@@ -4,21 +4,25 @@ import {devtools, persist} from "zustand/middleware"
 
 const taskStore = (set) => ({
     tasks: [],
+    // Add the selected task to the list
     addTask: (taskName) => { 
         set((state) => ({
             tasks: [taskName, ...state.tasks],
         }))
     },
+    // Remove the selected task from the list
     removeTask: (taskId) => {
         set((state) => ({
             tasks: state.tasks.filter((taskName) => taskName.id !== taskId)
         }))
     },
+    // Toggle the completed property of the selected task
     toggleTaskStatus: (taskId) => {
         set((state) => ({
             tasks: state.tasks.map((taskName) => taskName.id === taskId ? {...taskName, completed: !taskName.completed} : taskName)
         }))
     },
+    // Toggle the priority property of the selected task and then sort the whole task list such that priority tasks are first
     togglePriorityStatus: (taskId) => {
         set((state) => ({
             tasks: state.tasks.map((taskName) => taskName.id === taskId ? {...taskName, priority: !taskName.priority} : taskName)
@@ -26,6 +30,7 @@ const taskStore = (set) => ({
         }))
     },
     filteredTasks: [],
+    // Filter the list of tasks by the given filter
     filterTasks: (filter) => {
         switch(filter){
             case 'completed':
@@ -47,6 +52,7 @@ const taskStore = (set) => ({
     }
 })
 
+// Create the Task store and save the tasks into the local storage of the web app
 const useTaskStore = create(
     devtools(
         persist(taskStore, {

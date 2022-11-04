@@ -17,9 +17,11 @@ test('Task is added to list', () => {
 
     const testValue = 'createTest'
 
+    // Create a task called createTest
     fireEvent.change(taskInputEl, {target:{value:testValue}})
     fireEvent.click(submitButtonEl)
 
+    // Check if the task was added and has the right data
     const taskEl = screen.getByTestId(testValue+ " Task")
 
     expect(taskEl.textContent).toBe(testValue)
@@ -31,24 +33,34 @@ test('Task is deleted from the list', () => {
     const submitButtonEl = screen.getByTestId("SubmitBtn")
     const listEl = screen.getByRole("list")
 
-    const testValue = 'deleteTest'
+    const testValues = ['deleteTest', 'dontDelete', 'dontDelete2']
 
-    fireEvent.change(taskInputEl, {target:{value:testValue}})
-    fireEvent.click(submitButtonEl)
-
-    const deleteButtonEl = screen.getByTestId(testValue+" DeleteBtn")
+    // Create a task for each element in the testValues array
+    for(const testValue of testValues){
+        fireEvent.change(taskInputEl, {target:{value:testValue}})
+        fireEvent.click(submitButtonEl)
+    }
+    
+    // Click the delete button
+    const deleteButtonEl = screen.getByTestId(testValues[0]+" DeleteBtn")
     fireEvent.click(deleteButtonEl)
 
-    expect(listEl.lastChild.textContent).not.toBe(testValue)
+    // Search through the all of the child nodes of the list to make sure the task was deleted
+    listEl.childNodes.forEach((child) => {
+        expect(child.textContent).not.toContain(testValues[0])
+    })
 })
 
+// Test that when the completed button is pressed then the task does toggle between completed and uncompleted
 test('Task status does toggle', () => {
     render(<App />);
+    
     const taskInputEl = screen.getByRole("textbox")
     const submitButtonEl = screen.getByTestId("SubmitBtn")
 
     const testValue = 'completeTest'
 
+    // Create a task called completeTest
     fireEvent.change(taskInputEl, {target:{value:testValue}})
     fireEvent.click(submitButtonEl)
 
@@ -57,8 +69,10 @@ test('Task status does toggle', () => {
 
     var completed = ((taskEl.getAttribute('class').includes('todo-item')) ? false : true)
 
+    // Click the completed button twice to make sure it goes between completed and uncompleted
     for(var x = 0; x<2;x++)
     {
+        // Click the complete button and then check if the attribute did change
         fireEvent.click(statusButtonEl)
 
         if(completed)
@@ -78,11 +92,13 @@ test('Task List filters correctly', async () => {
 
     const testValues = ['filterTestCompleted', 'filterTestUncompleted']
 
+    // Create tasks for each element in the testValues array
     testValues.forEach(testValue => {
         fireEvent.change(taskInputEl, {target:{value:testValue}})
         fireEvent.click(submitButtonEl)
     })
 
+    // Change the status of one of the tasks
     const statusButtonEl = screen.getByTestId(testValues[0]+" StatusBtn")
     fireEvent.click(statusButtonEl)
 
@@ -90,6 +106,7 @@ test('Task List filters correctly', async () => {
 
     const filterOptions = ['all', 'completed', 'uncompleted']
 
+    // Cycle through all the filter options and make sure the filtering works
     filterOptions.forEach(async (filter) => {
 
         fireEvent.change(filterEl,{target:{value:filter}})
@@ -99,6 +116,7 @@ test('Task List filters correctly', async () => {
         switch(filter){
             case 'completed':
                 taskList.forEach(task => {
+                    // Only look at the tasks that have filter in name
                     if(task.textContent.includes('filter')) {
                         expect(task.getAttribute('class')).toContain("completed")
                     }
@@ -106,7 +124,6 @@ test('Task List filters correctly', async () => {
             break;
             case 'uncompleted':
                 taskList.forEach(async(task) => {
-                    // console.log(task.getAttribute('class'))
                     if(task.textContent.includes('filter')){
                         expect(task.getAttribute('class')).not.toContain("completed")
                     }
@@ -115,6 +132,7 @@ test('Task List filters correctly', async () => {
             default:
                 var count = 0;
                 taskList.forEach(task => {
+                    // Only count the tasks that have filter in name
                     if(task.textContent.includes('filter')){count++}
                 })                
                 

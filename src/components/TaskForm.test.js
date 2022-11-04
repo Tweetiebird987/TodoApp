@@ -27,6 +27,7 @@ test("task input should change", () => {
     const taskInputEl = screen.getByRole("textbox")
     const testValue = "test"
 
+    // Input test value and make sure the input value does change
     fireEvent.change(taskInputEl, {target:{value:testValue}})
     expect(taskInputEl.value).toBe(testValue)
 })
@@ -37,6 +38,7 @@ test("filter list should change", async () => {
 
     const filterOptions = ['all', 'completed', 'uncompleted']
 
+    // Cycle through each of the filter options and make sure the value does change
     filterOptions.forEach(async (filter) => {
 
         fireEvent.change(filterEl,{target:{value:filter}})

@@ -12,11 +12,13 @@ const TaskForm = () => {
 
     const [taskName, setTaskName] = useState("")
     const [status, setStatus] = useState("all")
-
+    
+    // Filter the tasks whenever the task state is change or the filter menu is changed
     useEffect(() => {
         filterTasks(status);
     },[tasks,status])
 
+    // Invoke the addTask function and pass the given task name and then reset the input field
     const handleTaskSubmit = (e) => {
         e.preventDefault()
         addTask({
