@@ -19,6 +19,11 @@ const taskStore = (set) => ({
             tasks: state.tasks.map((taskName) => taskName.id === taskId ? {...taskName, completed: !taskName.completed} : taskName)
         }))
     },
+    togglePriorityStatus: (taskId) => {
+        set((state) => ({
+            tasks: state.tasks.map((taskName) => taskName.id === taskId ? {...taskName, priority: !taskName.priority} : taskName)
+        }))
+    },
     filteredTasks: [],
     filterTasks: (filter) => {
         switch(filter){

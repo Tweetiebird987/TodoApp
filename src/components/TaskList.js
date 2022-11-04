@@ -28,6 +28,9 @@ const TaskList = () => {
                                 <button onClick={() => {removeTask(task.id)}} className='trash-btn' data-testid={task.taskName + " DeleteBtn"}>
                                     <i className="fas fa-trash"></i>
                                 </button>
+                                <button /*onClick={() => {setPriority(task.id)}}*/ className={`priority-btn ${task.priority ? "priority-on" : ''}`}>
+                                    <i className="fas fa-lightbulb"></i>
+                                </button>
                             </div>
                         </React.Fragment>
                     )
