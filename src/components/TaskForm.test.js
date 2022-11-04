@@ -38,7 +38,9 @@ test("filter list should change", async () => {
     const filterOptions = ['all', 'completed', 'uncompleted']
 
     filterOptions.forEach(async (filter) => {
-        await selectEvent.select(filterEl,filter)
+
+        fireEvent.change(filterEl,{target:{value:filter}})
+
         expect(filterEl.value).toBe(filter)
     })
 })

@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect';
+import selectEvent from 'react-select-event'
 
 import App from './App'
 
@@ -68,4 +69,57 @@ test('Task status does toggle', () => {
         }
         completed = !completed
     }
+})
+
+test('Task List filters correctly', async () => {
+    render(<App />)
+    const taskInputEl = screen.getByRole("textbox")
+    const submitButtonEl = screen.getByTestId("SubmitBtn")
+
+    const testValues = ['filterTestCompleted', 'filterTestUncompleted']
+
+    testValues.forEach(testValue => {
+        fireEvent.change(taskInputEl, {target:{value:testValue}})
+        fireEvent.click(submitButtonEl)
+    })
+
+    const statusButtonEl = screen.getByTestId(testValues[0]+" StatusBtn")
+    fireEvent.click(statusButtonEl)
+
+    const filterEl = screen.getByRole("combobox")
+
+    const filterOptions = ['all', 'completed', 'uncompleted']
+
+    filterOptions.forEach(async (filter) => {
+
+        fireEvent.change(filterEl,{target:{value:filter}})
+
+        const taskList = screen.getAllByRole('listitem')
+
+        switch(filter){
+            case 'completed':
+                taskList.forEach(task => {
+                    if(task.textContent.includes('filter')) {
+                        expect(task.getAttribute('class')).toContain("completed")
+                    }
+                })
+            break;
+            case 'uncompleted':
+                taskList.forEach(async(task) => {
+                    // console.log(task.getAttribute('class'))
+                    if(task.textContent.includes('filter')){
+                        expect(task.getAttribute('class')).not.toContain("completed")
+                    }
+                })
+            break;
+            default:
+                var count = 0;
+                taskList.forEach(task => {
+                    if(task.textContent.includes('filter')){count++}
+                })                
+                
+                expect(count).toBe(testValues.length)
+            break;
+        }
+    })
 })

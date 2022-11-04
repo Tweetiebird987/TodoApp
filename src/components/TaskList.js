@@ -3,8 +3,9 @@ import React from 'react'
 import useTaskStore from '../stores/taskStore'
 
 const TaskList = () => {
-    const { removeTask, toggleTaskStatus, filteredTasks} = useTaskStore(
+    const { tasks ,removeTask, toggleTaskStatus, filteredTasks} = useTaskStore(
         (state) => ({
+            tasks: state.tasks,
             removeTask: state.removeTask,
             toggleTaskStatus: state.toggleTaskStatus,
             filteredTasks: state.filteredTasks

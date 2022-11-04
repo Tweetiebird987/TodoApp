@@ -3,18 +3,18 @@ import React, { useEffect, useState } from "react";
 import useTaskStore from '../stores/taskStore'
 
 const TaskForm = () => {
-    const {tasks, addTask, filterTask} = useTaskStore(
+    const {tasks, addTask, filterTasks} = useTaskStore(
         (state) => ({
             tasks: state.tasks,
             addTask: state.addTask,
-            filterTask: state.filterTasks
+            filterTasks: state.filterTasks
         }))
 
     const [taskName, setTaskName] = useState("")
     const [status, setStatus] = useState("all")
 
     useEffect(() => {
-        filterTask(status);
+        filterTasks(status);
     },[tasks,status])
 
     const handleTaskSubmit = (e) => {
@@ -34,8 +34,8 @@ const TaskForm = () => {
                 <i className="fas fa-plus-square"></i>
             </button>
             <div className="select">
-                <select defaultValue="all" name="todos" className="filter-todo" 
-                onChange={(e) => setStatus(e.target.value)}>
+                <select name="todos" className="filter-todo" 
+                onChange={(e) => {setStatus(e.target.value)}}>
                     <option value="all">All</option>
                     <option value="completed">Completed</option>
                     <option value="uncompleted">Uncompleted</option>
