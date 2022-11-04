@@ -22,7 +22,8 @@ const TaskForm = () => {
         addTask({
             id: Math.ceil(Math.random() * 1000000),
             taskName: taskName,
-            completed: false
+            completed: false,
+            priority: false
         })
         setTaskName("")
     }

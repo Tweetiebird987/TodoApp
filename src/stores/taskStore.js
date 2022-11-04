@@ -22,6 +22,7 @@ const taskStore = (set) => ({
     togglePriorityStatus: (taskId) => {
         set((state) => ({
             tasks: state.tasks.map((taskName) => taskName.id === taskId ? {...taskName, priority: !taskName.priority} : taskName)
+                .sort(function(a, b){return Number(b.priority) - Number(a.priority)})
         }))
     },
     filteredTasks: [],

@@ -3,12 +3,12 @@ import React from 'react'
 import useTaskStore from '../stores/taskStore'
 
 const TaskList = () => {
-    const { tasks ,removeTask, toggleTaskStatus, filteredTasks} = useTaskStore(
+    const { removeTask, toggleTaskStatus, filteredTasks, togglePriorityStatus} = useTaskStore(
         (state) => ({
-            tasks: state.tasks,
             removeTask: state.removeTask,
             toggleTaskStatus: state.toggleTaskStatus,
-            filteredTasks: state.filteredTasks
+            filteredTasks: state.filteredTasks,
+            togglePriorityStatus: state.togglePriorityStatus
         })
     )
 
@@ -21,14 +21,14 @@ const TaskList = () => {
                             <div className='todo'>
                                 <li className={`todo-item ${task.completed ? "completed" : ''}`} data-testid={task.taskName + " Task"}>{task?.taskName}</li>
 
-                                <button onClick={(e) => {toggleTaskStatus(task.id)}} className='complete-btn' data-testid={task.taskName + " StatusBtn"}>
+                                <button onClick={() => {toggleTaskStatus(task.id)}} className='complete-btn' data-testid={task.taskName + " StatusBtn"}>
                                     <i className="fas fa-check"></i>
                                 </button>
 
                                 <button onClick={() => {removeTask(task.id)}} className='trash-btn' data-testid={task.taskName + " DeleteBtn"}>
                                     <i className="fas fa-trash"></i>
                                 </button>
-                                <button /*onClick={() => {setPriority(task.id)}}*/ className={`priority-btn ${task.priority ? "priority-on" : ''}`}>
+                                <button onClick={() => {togglePriorityStatus(task.id)}} className={`priority-btn ${task.priority ? "priority-on" : ''}`}>
                                     <i className="fas fa-lightbulb"></i>
                                 </button>
                             </div>
