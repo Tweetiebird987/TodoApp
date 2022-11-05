@@ -1,3 +1,8 @@
+# Sarel Erasmus Task App
+This project is a simple task list built using React. The project allows for creating and deleting of tasks. It also has features like filtering the tasks
+by being complete or not. Each task can be set to priority and will then be moved to the top of the list to show importance.
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
