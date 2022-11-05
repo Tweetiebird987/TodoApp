@@ -32,7 +32,7 @@ test("task input should change", () => {
     expect(taskInputEl.value).toBe(testValue)
 })
 
-test("filter list should change", async () => {
+test("filter list should change", () => {
     render(<TaskForm />)
     const filterEl = screen.getByRole("combobox")
 

@@ -85,7 +85,8 @@ test('Task status does toggle', () => {
     }
 })
 
-test('Task List filters correctly', async () => {
+// Test that the list is filtered to show the correctly selected tasks
+test('Task List filters correctly', () => {
     render(<App />)
     const taskInputEl = screen.getByRole("textbox")
     const submitButtonEl = screen.getByTestId("SubmitBtn")
@@ -98,6 +99,8 @@ test('Task List filters correctly', async () => {
         fireEvent.click(submitButtonEl)
     })
 
+    const taskTotal = screen.getAllByRole('listitem').length
+
     // Change the status of one of the tasks
     const statusButtonEl = screen.getByTestId(testValues[0]+" StatusBtn")
     fireEvent.click(statusButtonEl)
@@ -107,7 +110,7 @@ test('Task List filters correctly', async () => {
     const filterOptions = ['all', 'completed', 'uncompleted']
 
     // Cycle through all the filter options and make sure the filtering works
-    filterOptions.forEach(async (filter) => {
+    filterOptions.forEach(filter => {
 
         fireEvent.change(filterEl,{target:{value:filter}})
 
@@ -116,28 +119,55 @@ test('Task List filters correctly', async () => {
         switch(filter){
             case 'completed':
                 taskList.forEach(task => {
-                    // Only look at the tasks that have filter in name
-                    if(task.textContent.includes('filter')) {
-                        expect(task.getAttribute('class')).toContain("completed")
-                    }
+                    expect(task.getAttribute('class')).toContain("completed")
                 })
             break;
             case 'uncompleted':
-                taskList.forEach(async(task) => {
-                    if(task.textContent.includes('filter')){
-                        expect(task.getAttribute('class')).not.toContain("completed")
-                    }
+                taskList.forEach(task => {
+                    expect(task.getAttribute('class')).not.toContain("completed")
                 })
             break;
-            default:
-                var count = 0;
-                taskList.forEach(task => {
-                    // Only count the tasks that have filter in name
-                    if(task.textContent.includes('filter')){count++}
-                })                
-                
-                expect(count).toBe(testValues.length)
+            default:            
+                expect(taskList.length).toBe(taskTotal)
             break;
         }
     })
+})
+
+// Test that priority is sent to the top of the list
+test("Task with priority is at the top", () => {
+    render(<App />)
+
+    const taskInputEl = screen.getByRole("textbox")
+    const submitButtonEl = screen.getByTestId("SubmitBtn")
+
+    const testValues = ['priorityTestOn', 'priorityTestOff']
+
+    // Create tasks for each element in the testValues array
+    testValues.forEach(testValue => {
+        fireEvent.change(taskInputEl, {target:{value:testValue}})
+        fireEvent.click(submitButtonEl)
+    })
+
+    // Change the priority of one of the tasks
+    const priorityButtonEl = screen.getByTestId(testValues[0]+" PriorityBtn")
+    fireEvent.click(priorityButtonEl)
+
+    const taskList = screen.getAllByTestId(/PriorityBtn/i)
+
+    // Count how many times the priority switches
+    var curPriority = true
+    var prevPriority = false
+    var swaps = 0
+    for(var i = 0; i < taskList.length; i++){
+        prevPriority = curPriority
+        curPriority = taskList[i].getAttribute('class').includes('priority-on')
+
+        if(curPriority !== prevPriority){
+            swaps++
+        }
+    }
+
+    // If all the priority tasks are at the top then there should only be one swap
+    expect(swaps).toBe(1)
 })
