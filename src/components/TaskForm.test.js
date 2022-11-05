@@ -1,6 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect';
-import selectEvent from 'react-select-event'
 
 import TaskForm from './TaskForm'
 
@@ -32,7 +31,7 @@ test("task input should change", () => {
     expect(taskInputEl.value).toBe(testValue)
 })
 
-test("filter list should change", async () => {
+test("filter list should change", () => {
     render(<TaskForm />)
     const filterEl = screen.getByRole("combobox")
 

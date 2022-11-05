@@ -27,7 +27,7 @@ const TaskList = () => {
                                 </button>
 
                                 <button onClick={() => {togglePriorityStatus(task.id)}} className={`priority-btn ${task.priority ? "priority-on" : ''}`} 
-                                title="Set Priority">
+                                title="Set Priority" data-testid={task.taskName + " PriorityBtn"}>
                                     <i className="fas fa-lightbulb"></i>
                                 </button>
 
